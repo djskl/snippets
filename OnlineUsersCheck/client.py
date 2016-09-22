@@ -1,3 +1,7 @@
+#encoding:utf-8
+'''
+让用户"V_tz"的好友每隔1～5秒随机上线
+'''
 import requests
 import random
 import time
