@@ -41,6 +41,10 @@ def init_friends():
     users.join()
 
 def query_online_friends(username):
+    '''
+    查询当前在线的好友，尽量以事务的方式执行
+    这样可以减少数据在客户端/服务器端之间的传输
+    '''
     p = conn.pipeline()
     p.zunionstore("tmp.users.accessed", ["users.accessed"])
     p.zremrangebyscore("tmp.users.accessed", 0, time.time()-3)
