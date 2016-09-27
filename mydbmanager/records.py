@@ -1,6 +1,8 @@
 #encoding: utf-8
 
 from sqlalchemy import text, create_engine
+import types
+from numpy.core.defchararray import rstrip
 
 class Const(type):
     warning = 'This class is immutable.'
@@ -147,14 +149,28 @@ class Database(object):
          
         if fetchall:
             return rst.all()
-         
         return rst
 
+    def delete(self, tablename, where=None, where_vals={}):
+        del_sql = None
+        if where is None:
+            del_sql = "delete from %s"%tablename
+        elif isinstance(where, types.StringTypes):
+            del_sql = "delete from %s where %s"%(tablename, where)
+            
+        if not del_sql:
+            return -1
+        
+        del_rows = self._conn.execute(text(del_sql), **where_vals)
+        
+        return del_rows.rowcount
+        
 if __name__ == "__main__":
     db = Database(DataBaseType.POSTGRESQL, dbname="ces", username="postgres", password="", host="127.0.0.1")
-    rst = db.query("student", where="name like :pre", where_vals={"pre": "abc%"})
-    for item in rst:
-        print item.as_dict()
+    db.delete("student", where="name like :pre", where_vals={"pre": "%ac"})
+#     rst = db.query("student", where="name like :pre", where_vals={"pre": "abc%"})
+#     for item in rst:
+#         print item.as_dict()
     
     
     
