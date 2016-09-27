@@ -48,16 +48,20 @@ class Record(object):
         return dict(items)
 
 class RecordCollection(object):
-    
+    '''
+    代码精妙之处就在这了
+    '''
     def __init__(self, records):
         self._gen_records = records
         self._all_records = []
         self.pending = True
     
     def __getitem__(self, key):
-        
+        '''
+        key为int或slice类型
+        '''
         is_int = isinstance(key, int)
-        if is_int:
+        if is_int:  #如果为int, 则将其转为slice类型
             key = slice(key, key+1)
             
         is_slice = isinstance(key, slice)
@@ -72,10 +76,10 @@ class RecordCollection(object):
             
         rst = self._all_records[key]
         
-        if is_int:
+        if is_int:  #如果传入的key为int, 则返回一个Record
             return rst[0]
         
-        return rst
+        return rst  #如果传入的key为slice, 则返回一个Record的数组
             
     def __iter__(self):
         idx = 0
@@ -102,10 +106,8 @@ class RecordCollection(object):
         return len(self._all_records)
     
     def all(self, as_dict=False):
-        
         if as_dict:
-            return [r.as_dict() for r in self]
-        
+            return [r.as_dict() for r in self]        
         return list(self)
     
 class Database(object):
@@ -151,9 +153,8 @@ class Database(object):
 if __name__ == "__main__":
     db = Database(DataBaseType.POSTGRESQL, dbname="ces", username="postgres", password="", host="127.0.0.1")
     rst = db.query("student", where="name like :pre", where_vals={"pre": "abc%"})
+    for item in rst:
+        print item.as_dict()
     
-    for item in rst.all(True):
-        print item
     
-    db.close()
     
