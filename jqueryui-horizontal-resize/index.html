@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        .map-container{
+            width: 100%;
+            height: 100%;
+            border-spacing: 0;
+        }
+        .map-container td{
+            padding: 0;
+        }
+        #left-td, #resizable {
+            width: 160px;
+        }
+    </style>
+    <script>
+        $(function () {
+            $("#resizable").resizable({
+                handles: "e",
+                alsoResize: "#left-td"
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <table class="map-container">
+        <tr>
+            <td id="left-td">
+                <div id="resizable" style="background: green;height: 100%;"></div>
+            </td>
+            <td>
+                <div style="height: 100%;"></div>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
