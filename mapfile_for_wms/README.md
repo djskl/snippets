@@ -1,0 +1,5 @@
+MapServer版本为7.0
+
+支持wms的getMap以及getFeatureinfo请求
+
+通过Openlayers3(chrome下有bug,Firefox正常)以及Cesium测试

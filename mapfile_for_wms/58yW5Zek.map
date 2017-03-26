@@ -1,0 +1,152 @@
+MAP
+  EXTENT 115.679399253756 39.448421 116.906245746244 40.368172
+  FONTSET "/mapserver/TrueType/fonts.fnt"
+  IMAGETYPE "png"
+  NAME "MapCloud"
+  SIZE 800 600
+  STATUS ON
+  UNITS METERS
+
+  DEBUG 5
+
+  OUTPUTFORMAT
+    NAME "png"
+    MIMETYPE "image/png"
+    DRIVER "AGG/PNG"
+    EXTENSION "png"
+    IMAGEMODE RGB
+    TRANSPARENT FALSE
+  END # OUTPUTFORMAT
+
+  SYMBOL
+    NAME "circle"
+    TYPE ELLIPSE
+    FILLED TRUE
+    POINTS
+      1 1
+    END
+  END
+
+  PROJECTION
+    "proj=longlat"
+    "datum=WGS84"
+    "no_defs"
+  END # PROJECTION
+  LEGEND
+    KEYSIZE 20 14
+    KEYSPACING 5 5
+    LABEL
+      SIZE MEDIUM
+      OFFSET 0 0
+      SHADOWSIZE 1 1
+      TYPE BITMAP
+    END # LABEL
+    STATUS ON
+  END # LEGEND
+
+  QUERYMAP
+    SIZE -1 -1
+    STATUS OFF
+    STYLE HILITE
+  END # QUERYMAP
+
+  SCALEBAR
+    INTERVALS 4
+    LABEL
+      SIZE MEDIUM
+      OFFSET 0 0
+      SHADOWSIZE 1 1
+      TYPE BITMAP
+    END # LABEL
+    SIZE 200 3
+    STATUS OFF
+    UNITS MILES
+  END # SCALEBAR
+
+  WEB
+    METADATA
+      "wms_srs"	"EPSG:4326 EPSG:3857 "
+      "wms_onlineresource"	"http://www.icarto.cn"
+      "wms_enable_request"	"*"
+      "wms_include_items"	"all"
+      "wms_feature_info_mime_type"	"text/html"
+      "wms_encoding"	"utf-8"
+      "gml_include_items"	"all"
+      "wms_title"	"MapCloud Server"
+    END # METADATA
+  END # WEB
+
+  LAYER
+    DATA "/mapserver/dbfiles/0/1/xxx.shp"
+    EXTENT 115.88224 39.448421 116.703405 40.368172
+    METADATA
+      "wms_title"	"Vector Layer"
+      "wms_include_items" "all"
+    END # METADATA
+
+    NAME "58yW5Zek"
+
+    PROCESSING "FEATURES=100"
+    PROCESSING "LABEL_NO_CLIP=True"
+    PROCESSING "POLYLINE_NO_CLIP=True"
+    PROJECTION
+      "proj=longlat"
+      "datum=WGS84"
+      "no_defs"
+    END # PROJECTION
+    STATUS ON
+    TYPE POINT
+    UNITS PIXELS
+
+    LABELITEM "Cluster_FeatureCount"
+    CLASSITEM "Cluster_FeatureCount"
+
+  CLUSTER
+     MAXDISTANCE 20  # in pixels
+     REGION "ellipse"  # can be rectangle or ellipse
+  END
+
+    CLASS
+      NAME "Clustered Lightrail Stations"
+      EXPRESSION ("[Cluster_FeatureCount]" != "1")
+      STYLE
+        SIZE 30
+        SYMBOL "circle"
+        COLOR 0 255 0
+      END
+      LABEL
+        TYPE TRUETYPE
+        SIZE 8
+        COLOR 255 0 0
+        ALIGN CENTER
+        PRIORITY 10
+        BUFFER 1
+        PARTIALS TRUE
+        POSITION cc
+      END
+      TEMPLATE 'body.html'
+    END
+
+
+    CLASS
+      NAME "Class"
+      STYLE
+        ANTIALIAS TRUE
+        COLOR 0 0 255
+        OUTLINECOLOR 255 0 0
+        SIZE 10
+        SYMBOL "circle"
+        WIDTH 0
+      END # STYLE
+      TEMPLATE 'body.html'
+    END # CLASS
+
+    HEADER "head.html"
+    FOOTER "foot.html"
+
+    PROCESSING "CLUSTER_GET_ALL_SHAPES=ON"
+    PROCESSING "ITEMS=info"
+
+  END # LAYER
+
+END # MAP
