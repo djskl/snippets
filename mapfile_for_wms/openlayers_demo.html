@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WMS GetFeatureInfo (Tile Layer)</title>
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.0.1/css/ol.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://openlayers.org/en/v4.0.1/build/ol.js"></script>
+  </head>
+  <body>
+    <div id="map" class="map"></div>
+    <div id="info">&nbsp;</div>
+    <script>
+      var wmsSource = new ol.source.TileWMS({
+        url: 'http://localhost/cgi-bin/mapserv',
+        params: {
+            'map': '/mapserver/dbfiles/0/1/.mapfiles/58yW5Zek.map',
+            'LAYERS': '58yW5Zek'
+        },
+        serverType: 'mapserver',
+        crossOrigin: 'anonymous'
+      });
+
+      var wmsLayer = new ol.layer.Tile({
+        source: wmsSource
+      });
+
+      var view = new ol.View({
+        center: [0, 0],
+        zoom: 1
+      });
+
+      var map = new ol.Map({
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            }),
+            wmsLayer
+        ],
+        target: 'map',
+        view: view
+      });
+
+      map.on('singleclick', function(evt) {
+        document.getElementById('info').innerHTML = '';
+        var viewResolution = (view.getResolution());
+        var url = wmsSource.getGetFeatureInfoUrl(
+            evt.coordinate,
+            viewResolution,
+            'EPSG:3857',
+            {
+                'INFO_FORMAT': 'text/html'
+            }
+        );
+        if (url) {
+          document.getElementById('info').innerHTML =
+              '<iframe seamless src="' + url + '"></iframe>';
+        }
+      });
+    </script>
+  </body>
+</html>
