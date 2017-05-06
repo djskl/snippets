@@ -1,0 +1,14 @@
+    var imageryLayers = viewer.imageryLayers;
+    var _layer = imageryLayers.addImageryProvider(new
+        Cesium.WebMapServiceImageryProvider({
+        url: 'http://159.226.193.168:8080/cgi-bin/mapserv',
+        layers: 'WVTQBMr2',
+        parameters: {
+            map: '/mapserver/dbfiles/0/1/eco_function/.mapfiles/WVTQBMr2.map',
+            transparent: true,
+            format: 'image/png'
+        },
+        getFeatureInfoParameters: {
+            map: '/mapserver/dbfiles/0/1/eco_function/.mapfiles/WVTQBMr2.map'
+        }
+    }));
