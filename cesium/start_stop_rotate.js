@@ -2,6 +2,17 @@ var lastNow = Date.now();
 var rotate_over = false;
 var rotate_angle = 0;
 
+var getCenter = function () {
+    var windowPosition = new Cesium.Cartesian2(viewer.container.clientWidth / 2, viewer.container.clientHeight / 2);
+    var pickRay = viewer.scene.camera.getPickRay(windowPosition);
+    var pickPosition = viewer.scene.globe.pick(pickRay, viewer.scene);
+    var pickPositionCartographic = viewer.scene.globe.ellipsoid.cartesianToCartographic(pickPosition);
+    return {
+        longitude: pickPositionCartographic.longitude * (180 / Math.PI),
+        latitude: pickPositionCartographic.latitude * (180 / Math.PI)
+    };
+};
+
 var _roate_func = function (clock) {
     var spinRate = 0.2; //0.08
     var now = Date.now();
